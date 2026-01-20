@@ -1,4 +1,6 @@
 from rest_framework import viewsets, permissions, generics
+from rest_framework.decorators import action
+from rest_framework.response import Response
 from datetime import datetime
 from django.utils import timezone
 from .models import Session
@@ -21,6 +23,14 @@ class AdminSessionViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         admin_committee = self.request.user.committee
         serializer.save(committee=admin_committee)
+
+    @action(detail=False, methods=['get'])
+    def active_sessions(self, request):
+        now = timezone.now()
+        # self.get_queryset() already filters by the admin's committee
+        queryset = self.get_queryset().filter(start_time__lte=now, end_time__gte=now)
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
 
 
 class MemberSessionListView(generics.ListAPIView):
