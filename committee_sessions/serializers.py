@@ -16,8 +16,11 @@ class SessionSerializer(serializers.ModelSerializer):
         }
 
 class MemberSessionSerializer(serializers.ModelSerializer):
+    start_time = serializers.DateTimeField(format="%Y-%m-%d %I:%M %p", input_formats=["%Y-%m-%d %I:%M %p", "iso-8601"])
+    end_time = serializers.DateTimeField(format="%Y-%m-%d %I:%M %p", input_formats=["%Y-%m-%d %I:%M %p", "iso-8601"])
+
     class Meta:
         model = Session
         fields = ['id', 'name', 'start_time', 'end_time', 'location', 'instructor']
-        read_only_fields = fields
+        read_only_fields = ['id', 'name', 'start_time', 'end_time', 'location', 'instructor']
 
