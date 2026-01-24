@@ -20,6 +20,8 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         data['user_id'] = self.user.id
         data['role'] = self.user.role
         data['committee'] = self.user.committee
+        data['email'] = self.user.email
+        data['phone_number'] = self.user.phone_number
 
         return data
     
