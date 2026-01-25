@@ -1,6 +1,8 @@
 from django.contrib import admin
 from django.utils import timezone
 from .models import Session
+from import_export.admin import ImportExportModelAdmin
+from .resources import SessionResource
 
 class ActiveSessionFilter(admin.SimpleListFilter):
     title = 'Active Status'
@@ -24,7 +26,8 @@ class ActiveSessionFilter(admin.SimpleListFilter):
         return queryset
 
 @admin.register(Session)
-class SessionAdmin(admin.ModelAdmin):
+class SessionAdmin(ImportExportModelAdmin):
+    resource_class = SessionResource
     list_display = (
         'name', 
         'committee', 

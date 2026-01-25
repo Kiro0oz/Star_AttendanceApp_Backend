@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'committee_sessions',
     'attendance',
     'rest_framework_simplejwt.token_blacklist',
+    'import_export',
 ]
 
 MIDDLEWARE = [
