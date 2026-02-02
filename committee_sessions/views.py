@@ -32,6 +32,22 @@ class AdminSessionViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
 
+    @action(detail=True, methods=['get'])
+    def attendance_count(self, request, pk=None):
+        """
+        Returns the number of verified attendees (present or late) for a specific session.
+        """
+        session = self.get_object()
+        # Count only present or late records as "attended"
+        count = session.attendances.filter(status__in=['present', 'late']).count()
+        
+        return Response({
+            "session_id": session.id,
+            "session_name": session.name,
+            "attendance_count": count,
+            "is_ended": session.end_time < timezone.now()
+        })
+
 
 class MemberSessionListView(generics.ListAPIView):
 
