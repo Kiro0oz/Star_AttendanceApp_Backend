@@ -30,6 +30,7 @@ class SessionAdmin(ImportExportModelAdmin):
     resource_class = SessionResource
     list_display = (
         'name', 
+        'location',
         'committee', 
         'start_time', 
         'end_time',
