@@ -88,7 +88,7 @@ class MemberAllSessionsListView(generics.ListAPIView):
 
 class CommitteeSessionsListView(generics.ListAPIView):
     serializer_class = SessionSerializer
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
         committee_name = self.kwargs['committee_name']
