@@ -84,3 +84,12 @@ class MemberAllSessionsListView(generics.ListAPIView):
             return Session.objects.filter(committee=user.committee).order_by('-start_time')
         
         return Session.objects.none()
+
+
+class CommitteeSessionsListView(generics.ListAPIView):
+    serializer_class = SessionSerializer
+    permission_classes = [permissions.AllowAny]
+
+    def get_queryset(self):
+        committee_name = self.kwargs['committee_name']
+        return Session.objects.filter(committee=committee_name).order_by('-start_time')
