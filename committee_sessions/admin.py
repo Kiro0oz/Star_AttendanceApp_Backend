@@ -35,6 +35,7 @@ class SessionAdmin(ImportExportModelAdmin):
         'start_time', 
         'end_time',
         'is_active', 
+        'get_status',
         'manual_code', 
         'instructor'
     )
@@ -51,3 +52,13 @@ class SessionAdmin(ImportExportModelAdmin):
     def is_active(self, obj):
         now = timezone.now()
         return obj.start_time <= now <= obj.end_time
+
+    @admin.display(description='Status')
+    def get_status(self, obj):
+        now = timezone.now()
+        if now < obj.start_time:
+            return "Upcoming"
+        elif now > obj.end_time:
+            return "Ended"
+        else:
+            return "Active"
