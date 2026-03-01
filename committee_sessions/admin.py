@@ -30,6 +30,7 @@ class SessionAdmin(ImportExportModelAdmin):
     resource_class = SessionResource
     list_display = (
         'name', 
+        'level',
         'location',
         'committee', 
         'start_time', 
@@ -42,9 +43,9 @@ class SessionAdmin(ImportExportModelAdmin):
     
     search_fields = ('name', 'instructor', 'manual_code')
     
-    list_filter = (ActiveSessionFilter, 'committee', 'start_time', 'end_time')
+    list_filter = (ActiveSessionFilter, 'committee', 'level', 'start_time', 'end_time')
     
-    list_editable = ('start_time', 'end_time', 'manual_code')
+    list_editable = ('level', 'start_time', 'end_time', 'manual_code')
     
     ordering = ('-start_time',)
 

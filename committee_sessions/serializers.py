@@ -7,7 +7,7 @@ class SessionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Session
-        fields = ['id', 'committee', 'name', 'start_time', 'end_time', 'location', 'instructor', 'manual_code']
+        fields = ['id', 'committee', 'name', 'level', 'start_time', 'end_time', 'location', 'instructor', 'manual_code']
         read_only_fields = ['committee']
         extra_kwargs = {
             'location': {'required': True, 'allow_null': False, 'allow_blank': False},
@@ -21,6 +21,6 @@ class MemberSessionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Session
-        fields = ['id', 'name', 'start_time', 'end_time', 'location', 'instructor']
-        read_only_fields = ['id', 'name', 'start_time', 'end_time', 'location', 'instructor']
+        fields = ['id', 'name', 'level', 'start_time', 'end_time', 'location', 'instructor']
+        read_only_fields = ['id', 'name', 'level', 'start_time', 'end_time', 'location', 'instructor']
 

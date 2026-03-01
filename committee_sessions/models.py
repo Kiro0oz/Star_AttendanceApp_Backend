@@ -3,6 +3,14 @@ from Auth.models import User
 from Auth.models import COMMITTEE_CHOICES
 
 
+
+SESSION_LEVEL_CHOICES = (
+    ('Beginner', 'Beginner'),
+    ('Intermediate', 'Intermediate'),
+    ('Advanced', 'Advanced'),
+)
+
+
 class Session(models.Model):
     committee = models.CharField(
         max_length=50, 
@@ -10,6 +18,11 @@ class Session(models.Model):
         help_text="The committee this session belongs to."
     )
     name = models.CharField(max_length=100)
+    level = models.CharField(
+        max_length=20, 
+        choices=SESSION_LEVEL_CHOICES, 
+        default='Beginner'
+    )
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
     location = models.CharField(max_length=100, blank=True, null=True)

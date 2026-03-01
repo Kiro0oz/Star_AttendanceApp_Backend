@@ -48,6 +48,52 @@ class AdminSessionViewSet(viewsets.ModelViewSet):
             "is_ended": session.end_time < timezone.now()
         })
 
+    @action(detail=True, methods=['get'])
+    def attendance_summary(self, request, pk=None):
+        """
+        Returns the lists of attendees (present/late) and absentees for a given session.
+        Only accessible after the session has ended.
+        """
+        session = self.get_object()
+        
+        # if session.end_time > timezone.now():
+        #     return Response(
+        #         {"error": "Session has not ended yet. Cannot generate summary."},
+        #         status=400
+        #     )
+            
+        # Get attendees (present or late)
+        attendances = session.attendances.all()
+        
+        attendees = attendances.filter(status__in=['present', 'late']).select_related('user')
+        absentees = attendances.filter(status='absent').select_related('user')
+        
+        attendees_data = [
+            {
+                "id": record.user.id,
+                "username": record.user.username,
+                "status": record.status
+            } for record in attendees
+        ]
+        
+        absentees_data = [
+            {
+                "id": record.user.id,
+                "username": record.user.username,
+                "status": record.status
+            } for record in absentees
+        ]
+        
+        return Response({
+            "session_id": session.id,
+            "session_name": session.name,
+            "total_attendees": len(attendees_data),
+            "total_absentees": len(absentees_data),
+            "attendees": attendees_data,
+            "absentees": absentees_data
+        })
+
+
 
 class MemberSessionListView(generics.ListAPIView):
 
